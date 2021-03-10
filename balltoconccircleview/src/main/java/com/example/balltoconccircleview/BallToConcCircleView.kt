@@ -67,7 +67,7 @@ fun Canvas.drawBTCCNode(i : Int, scale : Float, paint : Paint) {
     drawBallToConcentricCircle(scale, w, h, paint)
 }
 
-class BallToConcentricCircle(ctx : Context) : View(ctx) {
+class BallToConcentricCircleView(ctx : Context) : View(ctx) {
 
     override fun onDraw(canvas : Canvas) {
 
@@ -191,6 +191,29 @@ class BallToConcentricCircle(ctx : Context) : View(ctx) {
 
         fun startUpdating(cb : () -> Unit) {
             curr.startUpdating(cb)
+        }
+    }
+
+    data class Renderer(var view : BallToConcentricCircleView) {
+
+        private val animator : Animator = Animator(view)
+        private val btcc : BallToConcCircle = BallToConcCircle(0)
+        private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+        fun render(canvas : Canvas) {
+            canvas.drawColor(backColor)
+            btcc.draw(canvas, paint)
+            animator.animate {
+                btcc.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            btcc.startUpdating {
+                animator.start()
+            }
         }
     }
 }
