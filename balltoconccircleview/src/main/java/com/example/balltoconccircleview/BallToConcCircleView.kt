@@ -21,7 +21,7 @@ val colors : Array<Int> = arrayOf(
 val delay : Long = 20
 val strokeFactor : Float = 90f
 val sizeFactor : Float = 3.9f
-val rFactor : Float = 11.2f
+val rFactor : Float = 15.2f
 val backColor : Int = Color.parseColor("#BDBDBD")
 val circles : Int = 2
 val parts : Int = circles + 2
@@ -52,8 +52,8 @@ fun Canvas.drawBallToConcentricCircle(scale : Float, w : Float, h : Float, paint
             paint
         )
         paint.style = Paint.Style.STROKE
-        drawArc(RectF(-cr, -cr, cr, cr), 0f, 360f * sfj, false, paint)
         restore()
+        drawArc(RectF(-cr, -cr, cr, cr), 0f, 360f * sfj, false, paint)
     }
     restore()
 }
