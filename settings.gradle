@@ -1,0 +1,3 @@
+include ':balltoconccircleview'
+include ':app'
+rootProject.name = "LinkedBallToConcCircleView"
