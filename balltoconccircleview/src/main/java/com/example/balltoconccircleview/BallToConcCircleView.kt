@@ -218,4 +218,12 @@ class BallToConcentricCircleView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+        fun create(activity : Activity) : BallToConcentricCircleView {
+            val view : BallToConcentricCircleView = BallToConcentricCircleView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
