@@ -31,3 +31,38 @@ fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
 fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale(i, n)) * n
 fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
+
+fun Canvas.drawBallToConcentricCircle(scale : Float, w : Float, h : Float, paint : Paint) {
+    val size : Float = Math.min(w, h) / sizeFactor
+    val r : Float = Math.min(w, h) / rFactor
+    val sf : Float = scale.sinify()
+    save()
+    translate(w / 2, h / 2)
+    for (j in 0..1) {
+        val sfj : Float = sf.divideScale(2 * j + 1, parts)
+        val cr : Float = size - size * 0.5f * j
+        save()
+        rotate(360f * sfj)
+        paint.style = Paint.Style.FILL
+        drawCircle(
+            size - size * 0.5f * j,
+            0f,
+
+            r * sf.divideScale(2 * j, parts),
+            paint
+        )
+        paint.style = Paint.Style.STROKE
+        drawArc(RectF(-cr, -cr, cr, cr), 0f, 360f * sfj, false, paint)
+        restore()
+    }
+    restore()
+}
+
+fun Canvas.drawBTCCNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    paint.color = colors[i]
+    paint.strokeCap = Paint.Cap.ROUND
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    drawBallToConcentricCircle(scale, w, h, paint)
+}
